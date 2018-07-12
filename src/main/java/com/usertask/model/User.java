@@ -4,9 +4,8 @@ import javax.persistence.*;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-@EntityScan
+
 @Entity
-@Table(name = "user")
 public class User {
 	//@Column(name="user_id", unique=true, updatable=false, nullable=false)
 	@Id @GeneratedValue

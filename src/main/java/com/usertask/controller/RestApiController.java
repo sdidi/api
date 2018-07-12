@@ -10,6 +10,7 @@ import javax.persistence.Persistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import com.usertask.service.UserService;
 import com.usertask.util.CustomErrorType;
 
 
+@EntityScan( basePackages = {"com.usertask"} )
 @RestController
 @RequestMapping("/api")
 public class RestApiController {
@@ -94,6 +96,7 @@ public class RestApiController {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpapersistenceUnit");
     		EntityManager em = emf.createEntityManager();
     		em.getTransaction().begin();
+    		logger.info("Creating User hererrre : {}", user);
     		//em.merge(user); // merge instead of persist
     		em.persist(user);
     		em.getTransaction().commit();		
@@ -109,7 +112,7 @@ public class RestApiController {
     //Create a user
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
-        logger.info("Creating User : {}", user);
+        logger.info("Creating User hererrre : {}", user);
  
         if (userService.isUserExist(user)) {
             logger.error("Unable to create. A User with name {} already exist", user.getUsername());
@@ -118,16 +121,16 @@ public class RestApiController {
         //user.setUser_id(counter.incrementAndGet());
        // user.setUser_id(1);
         /* to save to MySQL database */
-        user.setFirstname("Zenzo");
+        user.setFirstname("Zenzo0000");
         user.setLastname("Tshumas");
         user.setUser_id(10);
-        user.setUsername("Mzet");
+        user.setUsername("Mzet000");
         persistData(user);
         
         /* to save to H2 file-based database */
         //userData.save(user);
         logger.info(user.toString());
-       userService.saveUser(user);     //to be disabled after testing   
+        userService.saveUser(user);       
         
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/user/{user_id}").buildAndExpand(user.getUser_id()).toUri());
