@@ -1,6 +1,7 @@
 package com.demo.controller;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.demo.data.TaskRepository;
+import com.demo.data.UserRepository;
 import com.demo.model.Task;
 import com.demo.model.User;
 import com.demo.service.TaskService;
@@ -30,11 +33,17 @@ import com.demo.util.CustomErrorType;
 @RequestMapping("/api")
 public class RestApiController {
 	public static final Logger logger = LoggerFactory.getLogger(RestApiController.class);
-	 
+	private static final AtomicLong counter = new AtomicLong();
     @Autowired
     UserService userService; 
     @Autowired
     TaskService taskService;
+    
+    @Autowired
+    UserRepository userData;
+        
+    @Autowired
+    TaskRepository taskData;
  
     //List all users 
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
@@ -56,19 +65,24 @@ public class RestApiController {
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
  
-    //Single User
+    //Display a single User
     @RequestMapping(value = "/user/{user_id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@PathVariable("user_id") long id) {
         logger.info("Fetching a User with id {}", id);
+       // User user = userService.findById(id);
+        Optional<User> userOpt = userData.findById(id); //returns a crudrepository
         User user = userService.findById(id);
-        if (user == null) {
-            logger.error("User with id {} not found.", id);
+        if (userOpt.isPresent())
+        { user = userOpt.get(); }
+        
+         if (user == null) {
+         logger.error("User with id {} not found.", id);
             return new ResponseEntity(new CustomErrorType("User with id " + id + " not found"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
     
-    //Single Task
+    //Display a single Task
     @RequestMapping(value = "/task/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getTask(@PathVariable("id") long id) {
         logger.info("Fetching a Task with id {}", id);
@@ -80,6 +94,7 @@ public class RestApiController {
         return new ResponseEntity<Task>(task, HttpStatus.OK);
     }
     
+    //used for MySQL data persistence
     public void persistData(User user) {
     	try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpapersistenceUnit");
@@ -96,6 +111,7 @@ public class RestApiController {
     	
     }
     
+    
     //Create a user
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
@@ -107,11 +123,14 @@ public class RestApiController {
         }
         
        // user.setUser_id(1);
-        // begin of jpa API
-        persistData(user);
+        /* to save to MySQL database */
+        //persistData(user);
         
-        userService.saveUser(user);
-       
+        /* to save to H2 file-based database */
+        user.setUser_id(counter.incrementAndGet());
+        userData.save(user);
+        
+        //userService.saveUser(user);     //to be disabled after testing   
  
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/user/{user_id}").buildAndExpand(user.getUser_id()).toUri());
@@ -132,7 +151,7 @@ public class RestApiController {
 		taskService.saveTask(task);
 		
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/task/{id}").buildAndExpand(task.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/api/task/{id}").buildAndExpand(task.getTask_id()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
  

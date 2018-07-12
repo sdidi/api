@@ -25,7 +25,7 @@ private static final AtomicLong counter = new AtomicLong();
      
     public Task findById(long id) {
         for(Task task : tasks){
-            if(task.getId() == id){
+            if(task.getTask_id() == id){
                 return task;
             }
         }
@@ -42,7 +42,7 @@ private static final AtomicLong counter = new AtomicLong();
     }
      
     public void saveTask(Task task) {
-        task.setId(counter.incrementAndGet());
+        task.setTask_id(counter.incrementAndGet());
         tasks.add(task);
     }
  
@@ -55,7 +55,7 @@ private static final AtomicLong counter = new AtomicLong();
          
         for (Iterator<Task> iterator = tasks.iterator(); iterator.hasNext(); ) {
             Task task = iterator.next();
-            if (task.getId() == id) {
+            if (task.getTask_id() == id) {
                 iterator.remove();
             }
         }

@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 public class User {
 	@Id
 	@Column(name="user_id", unique=true, updatable=false, nullable=false)
-   	private long user_id;
+   	private Long user_id;
     
 	@Column(name="username", unique=true, updatable=false, nullable=false)
     private String username;
@@ -22,10 +22,10 @@ public class User {
     private String lastname;
     
     public User(){
-        user_id=0;
+        user_id=new Long(0);
     }
      
-    public User(long user_id, String username, String firstname, String lastname){
+    public User(Long user_id, String username, String firstname, String lastname){
         this.user_id = user_id;
         this.username = username;
         this.firstname = firstname;
