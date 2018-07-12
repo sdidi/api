@@ -41,9 +41,7 @@ public class RestApiController {
     @Autowired
     TaskService taskService;
     
-    @Autowired
-    TaskRepository taskData;
- 
+     
     //List all users 
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUsers() {
@@ -118,19 +116,8 @@ public class RestApiController {
             logger.error("Unable to create. A User with name {} already exist", user.getUsername());
             return new ResponseEntity(new CustomErrorType("Unable to create. A User with username " + user.getUsername() + " already exist."),HttpStatus.CONFLICT);
         }
-        //user.setUser_id(counter.incrementAndGet());
-       // user.setUser_id(1);
-        /* to save to MySQL database 
-        user.setFirstname("Zenzo0000");
-        user.setLastname("Tshumas");
-        user.setUser_id(10);
-        user.setUsername("Mzet000");*/
-        //persistData(user);
-        
-        /* to save to H2 file-based database */
-        //userData.save(user);
-        logger.info(user.toString());
-        userService.saveUser(user);       
+         //persist the user data      
+         userService.saveUser(user);       
         
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/user/{user_id}").buildAndExpand(user.getUser_id()).toUri());
@@ -147,7 +134,7 @@ public class RestApiController {
             return new ResponseEntity(new CustomErrorType("Unable to create. A Task with a description " + task.getDescription() + " already exist."),HttpStatus.CONFLICT);
         }
         
-       	
+       	//persist task data
 		taskService.saveTask(task);
 		
         HttpHeaders headers = new HttpHeaders();
@@ -173,7 +160,7 @@ public class RestApiController {
         currentUser.setUsername(user.getUsername());
         currentUser.setFirstname(user.getFirstname());
         currentUser.setLastname(user.getLastname());
-       // persistData(currentUser); //add data to the database
+       // persistData(currentUser); // external database
         userService.updateUser(currentUser);
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
     }
@@ -189,7 +176,8 @@ public class RestApiController {
             logger.error("Unable to update a task with id {} not found.", id);
             return new ResponseEntity(new CustomErrorType("Unable to update a task with id " + id + " not found."), HttpStatus.NOT_FOUND);
         }
- 
+        currentTask.setName(task.getName());
+        currentTask.setUser_id(task.getUser_id());
         currentTask.setDescription(task.getDescription());
         currentTask.setStatus(task.getStatus());
         currentTask.setAssign_date(task.getAssign_date());

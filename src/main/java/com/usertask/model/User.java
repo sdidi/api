@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EntityScan
 @Entity
-@Table(name = "Test")
+@Table(name = "Users")
 public class User implements Serializable {
 	//@Column(name="user_id", unique=true, updatable=false, nullable=false)
 	@Id @GeneratedValue
