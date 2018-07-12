@@ -120,12 +120,12 @@ public class RestApiController {
         }
         //user.setUser_id(counter.incrementAndGet());
        // user.setUser_id(1);
-        /* to save to MySQL database */
+        /* to save to MySQL database 
         user.setFirstname("Zenzo0000");
         user.setLastname("Tshumas");
         user.setUser_id(10);
-        user.setUsername("Mzet000");
-        persistData(user);
+        user.setUsername("Mzet000");*/
+        //persistData(user);
         
         /* to save to H2 file-based database */
         //userData.save(user);

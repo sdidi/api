@@ -1,5 +1,6 @@
 package com.usertask.model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,8 +13,8 @@ import javax.persistence.Table;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 @EntityScan
 @Entity
-@Table(name = "user")
-public class Task {
+@Table(name = "Task")
+public class Task implements Serializable{
 	@Id @GeneratedValue
 	private long task_id;
 	 

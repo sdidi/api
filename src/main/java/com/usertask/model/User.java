@@ -1,12 +1,15 @@
 package com.usertask.model;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-
+@EntityScan
 @Entity
-public class User {
+@Table(name = "Test")
+public class User implements Serializable {
 	//@Column(name="user_id", unique=true, updatable=false, nullable=false)
 	@Id @GeneratedValue
 	private Long user_id;
