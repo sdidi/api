@@ -21,6 +21,8 @@ public class Task {
 	 
 	 private String status;
 	 
+	 private String name;
+	 
 	 private String description;
 	 
 	 private String due_date;
@@ -69,7 +71,12 @@ public class Task {
 	}
 
 	
-
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public long getTask_id() {
 		return task_id;
 	}

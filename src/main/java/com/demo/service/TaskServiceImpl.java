@@ -5,34 +5,63 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.demo.data.TaskRepository;
+import com.demo.data.UserRepository;
 import com.demo.model.Task;
+import com.demo.model.User;
 
 @Service("taskService")
 public class TaskServiceImpl implements TaskService{
-private static final AtomicLong counter = new AtomicLong();
+	private static final AtomicLong counter = new AtomicLong();
+	@Autowired
+	private TaskRepository taskRepository;
     
     private static List<Task> tasks;
      
-    static{
-        tasks= addTask();
-    }
- 
+        
+    /***
+     * method returns a list from a recordset 
+     * Uses a CRUDRepository method findAll()
+     */
     public List<Task> findAllTasks() {
-        return tasks;
+    	tasks = new ArrayList<Task>(); 
+    	//uses CrudRepository method to find all instances of user in the database and 
+    	//then iterates over each record to assign it to the list users. 
+        taskRepository.findAll().forEach(tasks::add); 
+       return tasks;
     }
      
-    public Task findById(long id) {
+    /***
+     * returns a task is present or else null
+     * It uses CRUDRepository method findById and orElse(null)
+     */
+   	public Task findById(long id) {
+   		 return taskRepository.findById(id).orElse(null);
+    }
+   	
+    /***
+     * Calls a findAllTasks() method to get a list of tasks.
+     * Returns a task searched by name.
+     */
+    public Task findByName(String name) {
+    	tasks = findAllTasks(); 
         for(Task task : tasks){
-            if(task.getTask_id() == id){
+            if(task.getName().equalsIgnoreCase(name)){
                 return task;
             }
         }
         return null;
     }
-     
+    
+    /***
+     * Calls a findAllTasks() method to get a list of tasks.
+     * Returns a task searched by description.
+     */
     public Task findByDescription(String description) {
+    	tasks = findAllTasks(); 
         for(Task task : tasks){
             if(task.getDescription().equalsIgnoreCase(description)){
                 return task;
@@ -41,41 +70,42 @@ private static final AtomicLong counter = new AtomicLong();
         return null;
     }
      
+    /***
+     *  takes a task instance as an argument
+     *  persist it to a database using a CRUDRepository method save()
+     */
     public void saveTask(Task task) {
         task.setTask_id(counter.incrementAndGet());
-        tasks.add(task);
+        taskRepository.save(task);
     }
- 
+    
+    /***
+     * takes a task instance as an argument
+     * as in saveTask method update uses a CRUDRepository methods save()
+     * If the id exists it updates otherwise it creates a new record
+     */
     public void updateTask(Task task) {
-        int index = tasks.indexOf(task);
-        tasks.set(index, task);
+    	taskRepository.save(task);
     }
  
+    /***
+     * tasks an id and uses CRUDRepository method deleteById()
+     */
     public void deleteTaskById(long id) {
-         
-        for (Iterator<Task> iterator = tasks.iterator(); iterator.hasNext(); ) {
-            Task task = iterator.next();
-            if (task.getTask_id() == id) {
-                iterator.remove();
-            }
-        }
+         taskRepository.deleteById(id);
     }
  
+    /***
+     * checks existence of a task instance by using CRUDRepository method existsById();
+     */
     public boolean isTaskExist(Task task) {
-        return findByDescription(task.getDescription())!=null;
+        return taskRepository.existsById(task.getTask_id());
     }
-     
+    
+    /***
+     * tasks an id and uses CRUDRepository method deleteAll()
+     */
     public void deleteAllTasks(){
-       tasks.clear();
-    }
- 
-    private static List<Task> addTask(){
-    	List<Task> tasks = new ArrayList<Task>();
-        tasks.add(new Task(1,"Completed","Web Application","22/01/2018","12/06/2018"));
-        tasks.add(new Task(2,"Pending","Mobile Application","13/03/2018","10/06/2018"));
-        tasks.add(new Task(3,"Completed","Web service Application","02/04/2018","12/08/2018"));
-        tasks.add(new Task(4,"Delayed","Web Application","07/05/2018","25/06/2018"));
-      //  users.add(new User(counter.incrementAndGet(),"Niel",33, 70000));
-        return tasks;
+       taskRepository.deleteAll();
     }
 }
