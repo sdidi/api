@@ -8,4 +8,13 @@ The API structure consists of the following:
 - configuration files (pom.xml [specifies the API dependencies managed by Maven], 
 persistence.xml - [specifying the jpapersistence unit thus connecting to MySQL database], 
 application.properties - [specifies the connection to H2 file-based database].
+
+The following HTTP calls can be made to test the API using Postman chrome plugin (or any other HTTP client):
+
+-> GET - List the users or user tasks.
+-> POST - Create the user or user tasks.
+-> PUT - Update the users or user tasks.
+-> DELETE - Delete the user or user tasks.
+
 Tech stack list [ Spring Boot, jpa with Hibernate implementation, Maven, Eclipse, Restful web services] 
+
