@@ -1,4 +1,4 @@
-package com.demo.util;
+package com.usertask.util;
 
 public class CustomErrorType {
 

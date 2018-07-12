@@ -1,4 +1,4 @@
-package com.demo.service;
+package com.usertask.service;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,10 +8,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.demo.data.TaskRepository;
-import com.demo.data.UserRepository;
-import com.demo.model.Task;
-import com.demo.model.User;
+import com.usertask.data.TaskRepository;
+import com.usertask.data.UserRepository;
+import com.usertask.model.Task;
+import com.usertask.model.User;
 
 @Service("taskService")
 public class TaskServiceImpl implements TaskService{

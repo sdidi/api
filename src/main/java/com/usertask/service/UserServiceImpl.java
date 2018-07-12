@@ -1,4 +1,4 @@
-package com.demo.service;
+package com.usertask.service;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -6,8 +6,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.demo.data.UserRepository;
-import com.demo.model.User;
+import com.usertask.data.UserRepository;
+import com.usertask.model.User;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {

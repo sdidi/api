@@ -1,4 +1,4 @@
-package com.demo.controller;
+package com.usertask.controller;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.demo.data.TaskRepository;
-import com.demo.data.UserRepository;
-import com.demo.model.Task;
-import com.demo.model.User;
-import com.demo.service.TaskService;
-import com.demo.service.UserService;
-import com.demo.util.CustomErrorType;
+import com.usertask.data.TaskRepository;
+import com.usertask.data.UserRepository;
+import com.usertask.model.Task;
+import com.usertask.model.User;
+import com.usertask.service.TaskService;
+import com.usertask.service.UserService;
+import com.usertask.util.CustomErrorType;
 
 
 @RestController

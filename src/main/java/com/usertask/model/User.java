@@ -1,4 +1,4 @@
-package com.demo.model;
+package com.usertask.model;
 
 import javax.persistence.*;
 

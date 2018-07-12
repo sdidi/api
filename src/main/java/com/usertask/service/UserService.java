@@ -1,8 +1,8 @@
-package com.demo.service;
+package com.usertask.service;
 
 import java.util.List;
 
-import com.demo.model.User;
+import com.usertask.model.User;
 
 public interface UserService {
 	User findById(long id);

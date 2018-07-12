@@ -1,8 +1,8 @@
-package com.demo.service;
+package com.usertask.service;
 
 import java.util.List;
 
-import com.demo.model.Task;
+import com.usertask.model.Task;
 
 public interface TaskService {
     Task findById(long id);
