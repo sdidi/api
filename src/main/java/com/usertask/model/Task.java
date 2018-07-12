@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,9 +14,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @Entity
 @Table(name = "user")
 public class Task {
-	@Id
-	@Column(name="task_id", unique=true, updatable=false, nullable=false)
-	 private long task_id;
+	@Id @GeneratedValue
+	private long task_id;
 	 
 	 private long user_id;
 	 

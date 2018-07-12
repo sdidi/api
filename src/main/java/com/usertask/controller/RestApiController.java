@@ -40,9 +40,6 @@ public class RestApiController {
     TaskService taskService;
     
     @Autowired
-    UserRepository userData;
-        
-    @Autowired
     TaskRepository taskData;
  
     //List all users 
@@ -70,10 +67,7 @@ public class RestApiController {
     public ResponseEntity<?> getUser(@PathVariable("user_id") long id) {
         logger.info("Fetching a User with id {}", id);
        // User user = userService.findById(id);
-        Optional<User> userOpt = userData.findById(id); //returns a crudrepository
-        User user = userService.findById(id);
-        if (userOpt.isPresent())
-        { user = userOpt.get(); }
+         User user = userService.findById(id);
         
          if (user == null) {
          logger.error("User with id {} not found.", id);
@@ -121,16 +115,20 @@ public class RestApiController {
             logger.error("Unable to create. A User with name {} already exist", user.getUsername());
             return new ResponseEntity(new CustomErrorType("Unable to create. A User with username " + user.getUsername() + " already exist."),HttpStatus.CONFLICT);
         }
-        user.setUser_id(counter.incrementAndGet());
+        //user.setUser_id(counter.incrementAndGet());
        // user.setUser_id(1);
         /* to save to MySQL database */
+        user.setFirstname("Zenzo");
+        user.setLastname("Tshumas");
+        user.setUser_id(10);
+        user.setUsername("Mzet");
         persistData(user);
         
         /* to save to H2 file-based database */
         //userData.save(user);
+        logger.info(user.toString());
+       userService.saveUser(user);     //to be disabled after testing   
         
-        userService.saveUser(user);     //to be disabled after testing   
- 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/user/{user_id}").buildAndExpand(user.getUser_id()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
@@ -172,7 +170,7 @@ public class RestApiController {
         currentUser.setUsername(user.getUsername());
         currentUser.setFirstname(user.getFirstname());
         currentUser.setLastname(user.getLastname());
-        persistData(currentUser); //add data to the database
+       // persistData(currentUser); //add data to the database
         userService.updateUser(currentUser);
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
     }

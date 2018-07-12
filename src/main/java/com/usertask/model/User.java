@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @Table(name = "user")
 public class User {
 	//@Column(name="user_id", unique=true, updatable=false, nullable=false)
-	@Id
+	@Id @GeneratedValue
 	private Long user_id;
     
 	//@Column(name="username", unique=true, updatable=false, nullable=false)

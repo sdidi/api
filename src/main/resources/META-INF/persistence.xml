@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
          version="2.0">
 <persistence-unit name="jpapersistenceUnit">
-   <class>com.demo.controller.RestApiController</class>
+   <class>com.usertask.controller.RestApiController</class>
   <properties>
      <property name="hibernate.connection.driver_class" value= "com.mysql.jdbc.Driver" />
      <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/Usersdb" />
