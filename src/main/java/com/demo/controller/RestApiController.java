@@ -121,16 +121,15 @@ public class RestApiController {
             logger.error("Unable to create. A User with name {} already exist", user.getUsername());
             return new ResponseEntity(new CustomErrorType("Unable to create. A User with username " + user.getUsername() + " already exist."),HttpStatus.CONFLICT);
         }
-        
+        user.setUser_id(counter.incrementAndGet());
        // user.setUser_id(1);
         /* to save to MySQL database */
-        //persistData(user);
+        persistData(user);
         
         /* to save to H2 file-based database */
-        user.setUser_id(counter.incrementAndGet());
-        userData.save(user);
+        //userData.save(user);
         
-        //userService.saveUser(user);     //to be disabled after testing   
+        userService.saveUser(user);     //to be disabled after testing   
  
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/user/{user_id}").buildAndExpand(user.getUser_id()).toUri());

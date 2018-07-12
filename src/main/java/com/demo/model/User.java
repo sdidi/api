@@ -8,17 +8,17 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @Entity
 @Table(name = "user")
 public class User {
+	//@Column(name="user_id", unique=true, updatable=false, nullable=false)
 	@Id
-	@Column(name="user_id", unique=true, updatable=false, nullable=false)
-   	private Long user_id;
+	private Long user_id;
     
-	@Column(name="username", unique=true, updatable=false, nullable=false)
+	//@Column(name="username", unique=true, updatable=false, nullable=false)
     private String username;
     
-	@Column(name="firstName", unique=false, updatable=true, nullable=false)
+	//@Column(name="firstName", unique=false, updatable=true, nullable=false)
     private String firstname;
 	
-	@Column(name="lastName", unique=false, updatable=true, nullable=false)
+	//@Column(name="lastName", unique=false, updatable=true, nullable=false)
     private String lastname;
     
     public User(){

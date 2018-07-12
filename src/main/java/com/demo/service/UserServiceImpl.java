@@ -3,33 +3,47 @@ package com.demo.service;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.demo.data.UserRepository;
 import com.demo.model.User;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 	private static final AtomicLong counter = new AtomicLong();
+	@Autowired
+	private UserRepository userRepository;
     
     private static List<User> users;
      
-    static{
-        users= populateUsers();
-    }
- 
+        
+    /***
+     * method returns a list from a recordset 
+     * Uses a CRUDRepository method findAll()
+     */
     public List<User> findAllUsers() {
-        return users;
+    	users = new ArrayList<User>(); 
+    	//uses CrudRepository method to find all instances of user in the database and 
+    	//then iterates over each record to assign it to the list users. 
+        userRepository.findAll().forEach(users::add); 
+       return users;
     }
      
+    /***
+     * returns a user is present or else null
+     * It uses uses CRUDRepository method findById and orElse(null)
+     */
    	public User findById(long id) {
-        for(User user : users){
-            if(user.getUser_id() == id){
-                return user;
-            }
-        }
-        return null;
+   		 return userRepository.findById(id).orElse(null);
     }
-     
+   	
+    /***
+     * Calls a findAllUsers() method to get a list of users.
+     * Returns a user searched by username.
+     */
     public User findByName(String name) {
+    	users = findAllUsers(); 
         for(User user : users){
             if(user.getUsername().equalsIgnoreCase(name)){
                 return user;
@@ -38,42 +52,44 @@ public class UserServiceImpl implements UserService {
         return null;
     }
      
+    /***
+     *  takes a user instance as an argument
+     *  persist it to a database using a CRUDRepository method save()
+     */
     public void saveUser(User user) {
         user.setUser_id(counter.incrementAndGet());
-        users.add(user);
+        userRepository.save(user);
     }
- 
+    
+    /***
+     * takes a user instance as an argument
+     * as in saveUser method update uses a CRUDRepository methods save()
+     * If the id exists it updates otherwise it creates a new record
+     */
     public void updateUser(User user) {
-        int index = users.indexOf(user);
-        users.set(index, user);
+    	userRepository.save(user);
     }
  
+    /***
+     * tasks an id and uses CRUDRepository method deleteById()
+     */
     public void deleteUserById(long id) {
-         
-        for (Iterator<User> iterator = users.iterator(); iterator.hasNext(); ) {
-            User user = iterator.next();
-            if (user.getUser_id() == id) {
-                iterator.remove();
-            }
-        }
+         userRepository.deleteById(id);
     }
  
+    /***
+     * checks existance of a user instance by using CRUDRepository method existsById();
+     */
     public boolean isUserExist(User user) {
-        return findByName(user.getUsername())!=null;
+        return userRepository.existsById(user.getUser_id());
     }
-     
+    
+    /***
+     * tasks an id and uses CRUDRepository method deleteAll()
+     */
     public void deleteAllUsers(){
-        users.clear();
+       userRepository.deleteAll();
     }
- 
-    private static List<User> populateUsers(){
-    	List<User> users = new ArrayList<User>();
-        users.add(new User(counter.incrementAndGet(),"Sabre","Zenzo", "Didi"));
-        users.add(new User(counter.incrementAndGet(),"Mankiri", "Nothabo", "Didi"));
-        users.add(new User(counter.incrementAndGet(),"JSmith","John", "Smith"));
-        users.add(new User(counter.incrementAndGet(),"VDidi","Vuyolwethu", "Didi"));
-      //  users.add(new User(counter.incrementAndGet(),"Niel",33, 70000));
-        return users;
-    }
+    
     
 }

@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.demo.model.Task;
 
-public interface TaskRepository  extends JpaRepository<Task,Long> {
+public interface TaskRepository  extends CrudRepository<Task,Long> {
 
 }
