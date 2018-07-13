@@ -8,6 +8,7 @@ The API structure consists of the following:
 - configuration files (pom.xml [specifies the API dependencies managed by Maven], 
 persistence.xml - [specifying the jpapersistence unit thus connecting to MySQL database], 
 application.properties - [specifies the connection to H2 file-based database].
+pom.xml - [maven dependency management]
 
 The following HTTP calls can be made to test the API using Postman chrome plugin (or any other HTTP client):
 
@@ -16,5 +17,31 @@ The following HTTP calls can be made to test the API using Postman chrome plugin
 -> PUT - Update the users or user tasks.
 -> DELETE - Delete the user or user tasks.
 
-Tech stack list [ Spring Boot, jpa with Hibernate implementation, Maven, Eclipse, Restful web services] 
+Tech stack list [ Spring Boot, jpa with Hibernate implementation, Maven, Eclipse, Restful web services, Liqui-Base database migration] 
 
+How to Run the API:
+
+You will need to clone the codebase: https://github.com/sdidi/api.git 
+
+Using IDE:
+
+Run the project as: Spring Boot API and then test the calls with Postman plugin or curl.
+
+Using command-line:
+
+compile, test, package
+
+mvn clean package
+run
+
+mvn spring-boot:run
+
+For accessing H2 database dashboard:
+
+Go to http://localhost:8080/console
+
+JDBC URL: jdbc:h2:file:~/h2/testdb
+User Name: sa
+Password: Leave it blank
+
+You have an option of MySQL through the persistence.xml configuration.
