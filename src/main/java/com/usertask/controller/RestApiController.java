@@ -63,8 +63,8 @@ public class RestApiController {
     }
  
     //Display a single User
-    @RequestMapping(value = "/user/{user_id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(@PathVariable("user_id") long id) {
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getUser(@PathVariable("id") long id) {
         logger.info("Fetching a User with id {}", id);
        // User user = userService.findById(id);
          User user = userService.findById(id);
@@ -88,13 +88,13 @@ public class RestApiController {
         return new ResponseEntity<Task>(task, HttpStatus.OK);
     }
     
-    //used for MySQL data persistence
+    //used for MySQL external data persistence
     public void persistData(User user) {
     	try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpapersistenceUnit");
     		EntityManager em = emf.createEntityManager();
     		em.getTransaction().begin();
-    		logger.info("Creating User hererrre : {}", user);
+    		logger.info("Populate user data: {}", user);
     		//em.merge(user); // merge instead of persist
     		em.persist(user);
     		em.getTransaction().commit();		
@@ -120,7 +120,7 @@ public class RestApiController {
          userService.saveUser(user);       
         
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/user/{user_id}").buildAndExpand(user.getUser_id()).toUri());
+        headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(user.getUser_id()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
     
@@ -145,8 +145,8 @@ public class RestApiController {
     
     
     //Update a user
-    @RequestMapping(value = "/user/{user_id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateUser(@PathVariable("user_id") long id, @RequestBody User user) {
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody User user) {
         logger.info("Updating User with id {}", id);
  
         User currentUser = userService.findById(id);
@@ -188,7 +188,7 @@ public class RestApiController {
     }
     
     //delete a user
-    @RequestMapping(value = "/user/{user_id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
         logger.info("Fetching & Deleting User with id {}", id);
  

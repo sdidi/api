@@ -73,7 +73,6 @@ public class Task implements Serializable{
 	public void setAssign_date(String assign_date) {
 		this.assign_date = assign_date;
 	}
-
 	
 	public String getName() {
 		return name;
