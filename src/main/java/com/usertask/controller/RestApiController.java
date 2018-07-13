@@ -88,6 +88,16 @@ public class RestApiController {
         return new ResponseEntity<Task>(task, HttpStatus.OK);
     }
     
+  //Display a tasks by user id
+    @RequestMapping(value = "/task/user/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getTaskbyUser(@PathVariable("id") long id) {
+    	List<Task> tasks = taskService.findByUserID(id);
+        if (tasks.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
+    }
+    
     //used for MySQL external data persistence
     public void persistData(User user) {
     	try {

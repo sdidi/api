@@ -8,6 +8,8 @@ public interface TaskService {
     Task findById(long id);
     
     Task findByDescription(String description);
+    
+    List<Task> findByUserID(long id);
      
     void saveTask(Task task);
      

@@ -58,6 +58,22 @@ public class TaskServiceImpl implements TaskService{
     
     /***
      * Calls a findAllTasks() method to get a list of tasks.
+     * Returns a task searched by user_id.
+     */
+    public List<Task> findByUserID(long id) {
+    	tasks = findAllTasks(); 
+    	List<Task> anotherTask = new ArrayList<Task>();
+        for(Task task : tasks){
+            if(task.getUser_id() == id){
+                anotherTask.add(task);
+            }
+        }
+        
+        return anotherTask;
+    }
+    
+    /***
+     * Calls a findAllTasks() method to get a list of tasks.
      * Returns a task searched by description.
      */
     public Task findByDescription(String description) {
