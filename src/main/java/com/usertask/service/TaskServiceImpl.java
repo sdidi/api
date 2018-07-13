@@ -56,15 +56,43 @@ public class TaskServiceImpl implements TaskService{
         return null;
     }
     
+    
+    /***
+     * Calls a findAllTasks() method to get a list of tasks.
+     * Returns a task searched by user_id and task_id.
+     */
+    public Task findByUserID(long user_id, long id) {
+    	tasks = findAllTasks(); 
+    	for(Task task : tasks)
+           if(task.getUser_id() == user_id && task.getTask_id() == id)
+               return task;
+        return null;
+    }
+    
+    
+    
+    /***
+     * 
+     * Returns all task searched by user_id 
+     */
+    public List<Task> findByUserID(long user_id) {
+    	tasks = findAllTasks(); 
+    	List<Task> anotherTask = new ArrayList<Task>();
+    	for(Task task : tasks)
+           if(task.getUser_id() == user_id )
+        	   anotherTask.add(task);
+        return anotherTask;
+    }
+    
     /***
      * Calls a findAllTasks() method to get a list of tasks.
      * Returns a task searched by user_id.
      */
-    public List<Task> findByUserID(long id) {
+    public List<Task> findByStatus(String status) {
     	tasks = findAllTasks(); 
     	List<Task> anotherTask = new ArrayList<Task>();
         for(Task task : tasks){
-            if(task.getUser_id() == id){
+        	if(task.getStatus().equalsIgnoreCase(status)){
                 anotherTask.add(task);
             }
         }
@@ -122,6 +150,25 @@ public class TaskServiceImpl implements TaskService{
      * tasks an id and uses CRUDRepository method deleteAll()
      */
     public void deleteAllTasks(){
-       taskRepository.deleteAll();
+              taskRepository.deleteAll();
+    }
+    
+    /***
+     * find a task that match the user id and task id
+     */
+    public Task findTaskByUserIDTaskID(long user_id, long id) {
+    	tasks = findAllTasks(); 
+    	 for(Task task : tasks)
+        	if(task.getUser_id()==user_id && task.getTask_id() == id)
+        		 return task;
+         return null;      
+    }
+    
+    /***
+     * delete a task that match the user id and task id
+     */
+    public void deleteTaskByUserIDTaskID(Task task) {    	
+        		 taskRepository.delete(task);                      
+      
     }
 }

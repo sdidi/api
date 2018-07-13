@@ -1,5 +1,5 @@
 # api
-UserTaskAPI is a simple Spring boot application that manages users and user tasks. It is created with Spring Boot and uses REST endpoints without a UI. The API is able to create/list/update and delete users and user tasks via REST.The data is persisted to a database with an option to use either MySQL or H2 file-based database using jpa with hibernate implementation. 
+UserTaskAPI is a simple Spring boot application that manages users and user tasks. It is created with Spring Boot and uses REST endpoints without a UI. The Restful API is able to create/list/update and delete users and user tasks via http requests.The data is persisted to a database with an option to use either MySQL or H2 file-based database using jpa with hibernate implementation. 
 
 The API structure consists of the following:
 - a model (User and Task)
@@ -7,8 +7,8 @@ The API structure consists of the following:
 - RESTful Controller
 - configuration files (pom.xml [specifies the API dependencies managed by Maven], 
 persistence.xml - [specifying the jpapersistence unit thus connecting to MySQL database], 
-application.properties - [specifies the connection to H2 file-based database].
-pom.xml - [maven dependency management]
+application.properties - [specifies the connection to H2 file-based database],
+pom.xml - [maven dependency management])
 
 The following HTTP calls can be made to test the API using Postman chrome plugin (or any other HTTP client):
 

@@ -61,6 +61,16 @@ public class RestApiController {
             }
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
+    
+  //List all tasks for a single user 
+    @RequestMapping(value = "/user/{user_id}/task/", method = RequestMethod.GET)
+    public ResponseEntity<List<Task>> listAllTasks(@PathVariable("user_id") long user_id) {
+        List<Task> tasks = taskService.findByUserID(user_id);
+        if (tasks.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
+    }
  
     //Display a single User
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
@@ -88,10 +98,26 @@ public class RestApiController {
         return new ResponseEntity<Task>(task, HttpStatus.OK);
     }
     
-  //Display a tasks by user id
-    @RequestMapping(value = "/task/user/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getTaskbyUser(@PathVariable("id") long id) {
-    	List<Task> tasks = taskService.findByUserID(id);
+  //Display a task by user id
+    @RequestMapping(value = "/user/{user_id}/task/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getTaskbyUser(@PathVariable("user_id") long user_id, @PathVariable("id") long id) {
+    	Task task = taskService.findByUserID(user_id, id);
+        if (task == null) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        return new ResponseEntity<Task>(task, HttpStatus.OK);
+    }
+    
+  //Display a tasks by status
+    @RequestMapping(value = "/task/task/{statuscode}", method = RequestMethod.GET)
+    public ResponseEntity<?> getTaskbyStatus(@PathVariable("statuscode") int statuscode) {
+    	String status;
+    	switch(statuscode) {
+    	case 0: status = "Completed"; break;
+    	case 1: status = "Pending"; break;
+    	case 2: status = "Delayed"; break;
+    	default: status = "Not known"; break;  	}
+    	List<Task> tasks = taskService.findByStatus(status);
         if (tasks.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
@@ -135,7 +161,7 @@ public class RestApiController {
     }
     
     // Create a task
-    @RequestMapping(value = "/task/", method = RequestMethod.POST)
+    @RequestMapping(value = "/task/{user_id}/task/", method = RequestMethod.POST)
     public ResponseEntity<?> createTask(@RequestBody Task task, UriComponentsBuilder ucBuilder) {
         logger.info("Creating Task : {}", task);
  
@@ -176,8 +202,8 @@ public class RestApiController {
     }
     
     //update a task
-    @RequestMapping(value = "/task/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateTask(@PathVariable("id") long id, @RequestBody Task task) {
+    @RequestMapping(value = "/user/{user_id}/task/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateTask(@PathVariable("id") long id, @PathVariable("user_id") long user_id, @RequestBody Task task ) {
         logger.info("Updating a task with id {}", id);
  
         Task currentTask = taskService.findById(id);
@@ -187,7 +213,7 @@ public class RestApiController {
             return new ResponseEntity(new CustomErrorType("Unable to update a task with id " + id + " not found."), HttpStatus.NOT_FOUND);
         }
         currentTask.setName(task.getName());
-        currentTask.setUser_id(task.getUser_id());
+        currentTask.setUser_id(user_id);
         currentTask.setDescription(task.getDescription());
         currentTask.setStatus(task.getStatus());
         currentTask.setAssign_date(task.getAssign_date());
@@ -212,18 +238,18 @@ public class RestApiController {
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
  
-  //delete a task
-    @RequestMapping(value = "/task/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteTask(@PathVariable("id") long id) {
+  //delete a task by user id and task id
+    @RequestMapping(value = "/user/{user_id}/task/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteTask(@PathVariable("user_id") long user_id, @PathVariable("id") long id) {
         logger.info("Fetching & Deleting a task with id {}", id);
  
-        Task task = taskService.findById(id);
+        Task task = taskService.findTaskByUserIDTaskID(user_id, id);
         if (task == null) {
             logger.error("Unable to delete. Task with id {} not found.", id);
             return new ResponseEntity(new CustomErrorType("Unable to delete. Task with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
-        taskService.deleteTaskById(id);
+        taskService.deleteTaskByUserIDTaskID(task);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
  
@@ -236,7 +262,7 @@ public class RestApiController {
         userService.deleteAllUsers();
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
-    
+        
   //Delete all tasks
     @RequestMapping(value = "/tasks/", method = RequestMethod.DELETE)
     public ResponseEntity<Task> deleteAllTasks() {
