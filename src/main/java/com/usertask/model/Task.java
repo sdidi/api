@@ -12,11 +12,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+import com.usertask.controller.RestApiController;
 @EntityScan
 @Entity
 @Table(name = "Task")
 public class Task implements Serializable{
+	public static final Logger logger = LoggerFactory.getLogger(RestApiController.class);
 	@Id @GeneratedValue
 	private long task_id;
 	
@@ -38,13 +43,14 @@ public class Task implements Serializable{
 	 }
 	 
 	 public Task(long id, String status, String description, String assign_date, String due_date) {
+		 
 		 Date date1 =null , date2 = null;  
 		 try {
 		 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			date1= sdf1.parse(assign_date);
 			date2 = sdf1.parse(due_date);
 		  }catch(Exception e) {
-			  System.err.println("Incorrect date format");
+			  logger.info("Incorrect data format", e);
 		  }
 		 this.task_id = id;
 		 this.status = status;
@@ -69,7 +75,7 @@ public class Task implements Serializable{
 		 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			date1= sdf1.parse(due_date);
 			}catch(Exception e) {
-			  System.err.println("Incorrect date format");
+				 logger.info("Incorrect data format", e);
 		  }
 		
 		this.due_date = date1;
@@ -85,7 +91,7 @@ public class Task implements Serializable{
 		 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 			date1= sdf1.parse(assign_date);
 			}catch(Exception e) {
-			  System.err.println("Incorrect date format");
+				 logger.info("Incorrect data format", e);
 		  }
 		this.assign_date = date1;
 	}

@@ -138,8 +138,8 @@ public class RestApiController {
     		em.close();
     		
             }catch(Exception e) {
-            	System.out.println("Error on jpa persist "+ e);
-            }
+            	 logger.info("Error on jpa persist", e);
+            	}
     	
     }
     
@@ -224,7 +224,7 @@ public class RestApiController {
      	assignDateString = sdformat.format(task.getAssign_date());
      	dueDateString = sdformat.format(task.getDue_date());     	
         }catch (Exception ex ){
-     	System.out.println(ex);
+        	 logger.error("Incorrect format", ex);
         }
         
         currentTask.setAssign_date(assignDateString);
