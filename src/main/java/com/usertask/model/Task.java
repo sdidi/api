@@ -29,27 +29,28 @@ public class Task implements Serializable{
 	 
 	 private String description;
 	 
-	 private String due_date;
+	 private Date due_date;
 	
-	 private String assign_date;
+	 private Date assign_date;
 	 
 	 public Task() {
 		 task_id = 0;
 	 }
-	// Date date1 , date2;
+	 
 	 public Task(long id, String status, String description, String assign_date, String due_date) {
-		   /*try {
-		 SimpleDateFormat sdf1 = new SimpleDateFormat("dd/M/yyyy");
+		 Date date1 =null , date2 = null;  
+		 try {
+		 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			date1= sdf1.parse(assign_date);
 			date2 = sdf1.parse(due_date);
 		  }catch(Exception e) {
 			  System.err.println("Incorrect date format");
-		  }*/
+		  }
 		 this.task_id = id;
 		 this.status = status;
 		 this.description = description;
-		 this.assign_date = assign_date;
-		 this.due_date = due_date;
+		 this.assign_date = date1;
+		 this.due_date = date2;
 	 }
 	
 	 public long getUser_id() {
@@ -58,20 +59,35 @@ public class Task implements Serializable{
 		public void setUser_id(long user_id) {
 			this.user_id = user_id;}
 		
-	 public String getDue_date() {
+	 public Date getDue_date() {		 
 		return due_date;
 	}
 
 	public void setDue_date(String due_date) {
-		this.due_date = due_date;
+		Date date1 =null;  
+		 try {
+		 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			date1= sdf1.parse(due_date);
+			}catch(Exception e) {
+			  System.err.println("Incorrect date format");
+		  }
+		
+		this.due_date = date1;
 	}
 
-	public String getAssign_date() {
+	public Date getAssign_date() {
 		return assign_date;
 	}
 
 	public void setAssign_date(String assign_date) {
-		this.assign_date = assign_date;
+		Date date1 =null;  
+		 try {
+		 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+			date1= sdf1.parse(assign_date);
+			}catch(Exception e) {
+			  System.err.println("Incorrect date format");
+		  }
+		this.assign_date = date1;
 	}
 	
 	public String getName() {

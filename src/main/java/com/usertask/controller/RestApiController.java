@@ -1,5 +1,6 @@
 package com.usertask.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -216,8 +217,18 @@ public class RestApiController {
         currentTask.setUser_id(user_id);
         currentTask.setDescription(task.getDescription());
         currentTask.setStatus(task.getStatus());
-        currentTask.setAssign_date(task.getAssign_date());
-        currentTask.setDue_date(task.getDue_date());
+        
+        String dueDateString = null, assignDateString = null;
+        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+     	assignDateString = sdformat.format(task.getAssign_date());
+     	dueDateString = sdformat.format(task.getDue_date());     	
+        }catch (Exception ex ){
+     	System.out.println(ex);
+        }
+        
+        currentTask.setAssign_date(assignDateString);
+        currentTask.setDue_date(dueDateString);
  
         taskService.updateTask(currentTask);
         return new ResponseEntity<Task>(currentTask, HttpStatus.OK);
