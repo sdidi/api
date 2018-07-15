@@ -12,13 +12,44 @@ pom.xml - [maven dependency management])
 
 The following HTTP calls can be made to test the API using Postman chrome plugin (or any other HTTP client):
 
--> POST - Create the user or user tasks.
+-> POST - Create the user or user tasks. (Using POST method and the following Http requests).
+1. To create a user:
+http://localhost:8080/api/user
+2. To create a task: (replace {user_id} with a user id)
+http://localhost:8080/api/task/{user_id}/task/
 
--> GET - List the users or user tasks.
+-> GET - List the users or user tasks (Using GET method and the following Http requests).
+1. To list all users:
+http://localhost:8080/api/user/{user_id}
+2. To list users by the id:
+http://localhost:8080/api/user/{user_id}
+3. To display a particular task for a specified user:
+http://localhost:8080/api/user/{user_id}/task/{task_id}
+4. To display a a task based on its id
+http://localhost:8080/api/user/task/{task_id}
+5. To list all tasks of a particular user:
+http://localhost:8080/api/user/{user_id}/task/
+6. To list all the tasks:
+http://localhost:8080/api/task/
 
--> PUT - Update the users or user tasks.
 
--> DELETE - Delete the user or user tasks.
+-> PUT - Update the users or user tasks (Using PUT method and the following Http requests).
+1. To update the user details
+http://localhost:8080/api/user/{user_id}
+2. To update the task details
+http://localhost:8080/api/user/{user_id}/task/{id}
+
+-> DELETE - Delete the user or user tasks (Using DELETE method and the following Http requests).
+1. To delete all the users in the database:
+http://localhost:8080/api/user/
+2. To delete users by the id:
+http://localhost:8080/api/user/{user_id}
+3. To delete a particular task:
+http://localhost:8080/api/user/{user_id}/task/{task_id}
+4. To delete all tasks of a particular user:
+http://localhost:8080/api/user/{user_id}/task/
+5. To delete all the tasks in the database:
+http://localhost:8080/api/task/
 
 Tech stack list [Spring Boot, jpa with Hibernate implementation, Maven, Eclipse, Restful web services, Liqui-Base database migration] 
 
