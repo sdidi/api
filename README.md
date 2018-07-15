@@ -61,7 +61,7 @@ You will need to clone the codebase: https://github.com/sdidi/api.git
 
 Using IDE:
 
-Run the project as: Spring Boot API and then test the calls with Postman plugin or curl.
+Run the project as: Spring Boot API and then test the API calls with Postman.
 
 Using command-line:
 
