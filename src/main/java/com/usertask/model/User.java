@@ -10,17 +10,17 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @Entity
 @Table(name = "Users")
 public class User implements Serializable {
-	//@Column(name="user_id", unique=true, updatable=false, nullable=false)
+	
 	@Id @GeneratedValue
 	private Long user_id;
     
-	//@Column(name="username", unique=true, updatable=false, nullable=false)
+	
     private String username;
     
-	//@Column(name="firstName", unique=false, updatable=true, nullable=false)
+	
     private String firstname;
 	
-	//@Column(name="lastName", unique=false, updatable=true, nullable=false)
+	
     private String lastname;
     
     public User(){

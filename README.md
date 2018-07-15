@@ -5,6 +5,8 @@ The API structure consists of the following:
 - a model (User and Task)
 - a service (UserService and TaskService specifications and its implementations)
 - RESTful Controller
+- Liquibase database migration 
+- Scheduled Task for displaying the delayed tasks
 - configuration files (pom.xml [specifies the API dependencies managed by Maven], 
 persistence.xml - [specifying the jpapersistence unit thus connecting to MySQL database], 
 application.properties - [specifies the connection to H2 file-based database],
