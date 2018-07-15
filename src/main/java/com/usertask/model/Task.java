@@ -151,7 +151,7 @@ public class Task implements Serializable{
 	    @Override
 	    public String toString() {
 	        return "User [id=" + task_id + ", user_id= " + user_id + ", description=" + description + ", date assigned=" + assign_date
-	                + ", Date Due=" + due_date + "status"+status+"]";
+	                + ", Date Due=" + due_date + "status ="+status+"]";
 	    }
 
 }

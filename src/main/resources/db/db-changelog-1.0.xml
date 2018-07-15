@@ -4,28 +4,7 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
  
-  <changeSet id="create_user" author="SabreDidi">
-  <preConditions onFail="MARK_RAN">
-        <not>
-            <tableExists tableName="user"/>
-        </not>
-    </preConditions>
-    <createTable tableName="users">
-      <column name="user_id" type="long">
-        <constraints primaryKey="true" nullable="false" />
-      </column>
-      <column name="username" type="varchar(50)">
-        <constraints nullable="false" />
-      </column>
-       <column name="firstname" type="varchar(50)">
-        <constraints nullable="false" />
-      </column>
-       <column name="lastname" type="varchar(50)">
-        <constraints nullable="false" />
-      </column>
-    </createTable>
-  </changeSet>
- 
+    
   <changeSet id="create_task" author="SabreDidi">
   <preConditions onFail="MARK_RAN">
         <not>
@@ -53,6 +32,9 @@
       </column>
     </createTable>
     
+    
+
+    
   <!--     <addForeignKeyConstraint baseColumnNames="user_id"
                              baseTableName="task"
                              constraintName="fk_user_id"
@@ -76,6 +58,29 @@
             referencedTableName="user"/>
 </changeSet>
  -->
+ 
+ <changeSet id="create_user" author="SabreDidi">
+    <validCheckSum>7:6297995084f9d1018e7c606144fbf28a</validCheckSum>
+    <preConditions onFail="MARK_RAN">
+        <not>
+            <tableExists tableName="user"/>
+        </not>
+    </preConditions>
+    <createTable tableName="users">
+      <column name="user_id" type="long">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="username" type="varchar(50)">
+        <constraints nullable="false" />
+      </column>
+       <column name="firstname" type="varchar(50)">
+        <constraints nullable="false" />
+      </column>
+       <column name="lastname" type="varchar(50)">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+</changeSet>
  
   <changeSet id="tag-1.0" author="SabreDidi">
     <tagDatabase tag="1.0" />

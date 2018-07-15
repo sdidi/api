@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     }
  
     /***
-     * checks existance of a user instance by using CRUDRepository method existsById();
+     * checks existence of a user instance by using CRUDRepository method existsById();
      */
     public boolean isUserExist(User user) {
         return userRepository.existsById(user.getUser_id());
