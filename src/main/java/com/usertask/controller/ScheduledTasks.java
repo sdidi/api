@@ -40,17 +40,22 @@ public class ScheduledTasks {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
    
-    
+   /***
+    * Task scheduler with fixed rate of 20 seconds and initial delay of 2 seconds 
+    */
     @Scheduled(fixedRate = 20000, initialDelay = 2000)
     public void scheduleTaskWithInitialDelay() {
     	logger.info("######################## Scheduled task output #############################");
-    		//Task task = entityManager.find(Task.class, new Long(1));
-    	 getDelayed();
+    	getDelayed();
     	 
     	 
    	 	
     }
     
+    /***
+     * Uses a task service for updating the entity status
+     * @param tasks
+     */
     public void updateTask(List<Task> tasks) {
     	
         for(Task task: tasks) {
@@ -61,11 +66,14 @@ public class ScheduledTasks {
  
     }
     
+    /***
+     * Uses entity manager to get all tasks and search for overdue tasks with status still pending
+     * Display the tasks and 
+     * Calls updateTask() method to persist the changes (from pending to Done)
+     */
     @Transactional
     public void getDelayed(){
-        	
-    	//entityManager.getTransaction().begin();
-    	List<Task> result = entityManager.createQuery( "from Task", Task.class ).getResultList();
+       	List<Task> result = entityManager.createQuery( "from Task", Task.class ).getResultList();
     	List<Task> myList = new ArrayList<Task>();
     	logger.info("The total list of tasks in the database: "+result.size());
     	long millis=System.currentTimeMillis();  

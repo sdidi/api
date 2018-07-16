@@ -42,8 +42,10 @@ public class RestApiController {
     @Autowired
     TaskService taskService;
     
-     
-    //List all users 
+    /***
+     * List all users
+     * @return
+     */
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUsers() {
         List<User> users = userService.findAllUsers();
@@ -53,7 +55,10 @@ public class RestApiController {
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
     
-    //List all tasks 
+    /***
+     * List all tasks 
+     * @return
+     */
     @RequestMapping(value = "/task/", method = RequestMethod.GET)
     public ResponseEntity<List<Task>> listAllTasks() {
         List<Task> tasks = taskService.findAllTasks();
@@ -63,7 +68,11 @@ public class RestApiController {
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
     
-  //List all tasks for a single user 
+    /***
+     * List all tasks for a single user 
+     * @param user_id
+     * @return
+     */
     @RequestMapping(value = "/user/{user_id}/task/", method = RequestMethod.GET)
     public ResponseEntity<List<Task>> listAllTasks(@PathVariable("user_id") long user_id) {
         List<Task> tasks = taskService.findByUserID(user_id);
@@ -73,7 +82,11 @@ public class RestApiController {
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
  
-    //Display a single User
+    /***
+     * Display a single User
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@PathVariable("id") long id) {
         logger.info("Fetching a User with id {}", id);
@@ -87,7 +100,11 @@ public class RestApiController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
     
-    //Display a single Task
+    /***
+     * Display a single Task
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/task/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getTask(@PathVariable("id") long id) {
         logger.info("Fetching a Task with id {}", id);
@@ -99,7 +116,12 @@ public class RestApiController {
         return new ResponseEntity<Task>(task, HttpStatus.OK);
     }
     
-  //Display a task by user id
+  /***
+   * Display a task by user id
+   * @param user_id
+   * @param id
+   * @return
+   */
     @RequestMapping(value = "/user/{user_id}/task/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getTaskbyUser(@PathVariable("user_id") long user_id, @PathVariable("id") long id) {
     	Task task = taskService.findByUserID(user_id, id);
@@ -109,7 +131,11 @@ public class RestApiController {
         return new ResponseEntity<Task>(task, HttpStatus.OK);
     }
     
-  //Display a tasks by status
+  /***
+   * Display a tasks by status
+   * @param statuscode
+   * @return
+   */
     @RequestMapping(value = "/task/task/{statuscode}", method = RequestMethod.GET)
     public ResponseEntity<?> getTaskbyStatus(@PathVariable("statuscode") int statuscode) {
     	String status;
@@ -125,7 +151,10 @@ public class RestApiController {
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
     
-    //used for MySQL external data persistence
+    /***
+     * used for MySQL external data persistence
+     * @param user
+     */
     public void persistData(User user) {
     	try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpapersistenceUnit");
@@ -144,7 +173,12 @@ public class RestApiController {
     }
     
     
-    //Create a user
+    /***
+     * Create a user
+     * @param user
+     * @param ucBuilder
+     * @return
+     */
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
         logger.info("Creating User hererrre : {}", user);
@@ -161,7 +195,12 @@ public class RestApiController {
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
     
-    // Create a task
+    /***
+     * Create a task
+     * @param task
+     * @param ucBuilder
+     * @return
+     */
     @RequestMapping(value = "/task/{user_id}/task/", method = RequestMethod.POST)
     public ResponseEntity<?> createTask(@RequestBody Task task, UriComponentsBuilder ucBuilder) {
         logger.info("Creating Task : {}", task);
@@ -181,7 +220,12 @@ public class RestApiController {
  
     
     
-    //Update a user
+    /***
+     * Update a user
+     * @param id
+     * @param user
+     * @return
+     */
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody User user) {
         logger.info("Updating User with id {}", id);
@@ -202,7 +246,13 @@ public class RestApiController {
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
     }
     
-    //update a task
+    /***
+     * update a task
+     * @param id
+     * @param user_id
+     * @param task
+     * @return
+     */
     @RequestMapping(value = "/user/{user_id}/task/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateTask(@PathVariable("id") long id, @PathVariable("user_id") long user_id, @RequestBody Task task ) {
         logger.info("Updating a task with id {}", id);
@@ -234,7 +284,11 @@ public class RestApiController {
         return new ResponseEntity<Task>(currentTask, HttpStatus.OK);
     }
     
-    //delete a user
+    /***
+     * delete a user
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
         logger.info("Fetching & Deleting User with id {}", id);
@@ -249,7 +303,12 @@ public class RestApiController {
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
  
-  //delete a task by user id and task id
+  /***
+   * delete a task by user id and task id
+   * @param user_id
+   * @param id
+   * @return
+   */
     @RequestMapping(value = "/user/{user_id}/task/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteTask(@PathVariable("user_id") long user_id, @PathVariable("id") long id) {
         logger.info("Fetching & Deleting a task with id {}", id);
@@ -265,7 +324,10 @@ public class RestApiController {
     }
  
     
-    //Delete all users
+    /***
+     * Delete all users
+     * @return
+     */
     @RequestMapping(value = "/user/", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteAllUsers() {
         logger.info("Deleting All Users");
@@ -274,7 +336,10 @@ public class RestApiController {
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
         
-  //Delete all tasks
+  /***
+   * Delete all tasks
+   * @return
+   */
     @RequestMapping(value = "/tasks/", method = RequestMethod.DELETE)
     public ResponseEntity<Task> deleteAllTasks() {
         logger.info("Deleting all tasks");
