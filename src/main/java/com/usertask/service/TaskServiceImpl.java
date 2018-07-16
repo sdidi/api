@@ -28,9 +28,7 @@ public class TaskServiceImpl implements TaskService{
      */
     public List<Task> findAllTasks() {
     	tasks = new ArrayList<Task>(); 
-    	//uses CrudRepository method to find all instances of user in the database and 
-    	//then iterates over each record to assign it to the list users. 
-        taskRepository.findAll().forEach(tasks::add); 
+    	taskRepository.findAll().forEach(tasks::add); 
        return tasks;
     }
      
@@ -38,8 +36,9 @@ public class TaskServiceImpl implements TaskService{
      * returns a task is present or else null
      * It uses CRUDRepository method findById and orElse(null)
      */
-   	public Task findById(long id) {
+   	public Task findById(long id) {   		
    		 return taskRepository.findById(id).orElse(null);
+   		 
     }
    	
     /***
@@ -62,11 +61,8 @@ public class TaskServiceImpl implements TaskService{
      * Returns a task searched by user_id and task_id.
      */
     public Task findByUserID(long user_id, long id) {
-    	tasks = findAllTasks(); 
-    	for(Task task : tasks)
-           if(task.getUser_id() == user_id && task.getTask_id() == id)
-               return task;
-        return null;
+    	return taskRepository.findById(user_id & id).orElse(null);
+    	 
     }
     
     

@@ -25,9 +25,7 @@ public class UserServiceImpl implements UserService {
      */
     public List<User> findAllUsers() {
     	users = new ArrayList<User>(); 
-    	//uses CrudRepository method to find all instances of user in the database and 
-    	//then iterates over each record to assign it to the list users. 
-        userRepository.findAll().forEach(users::add); 
+    	userRepository.findAll().forEach(users::add); 
        return users;
     }
      
